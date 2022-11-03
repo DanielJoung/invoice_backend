@@ -26,6 +26,13 @@ def load_user(userid):
   except models.DoesNotExist:
     return None
 
+@login_manager.user_loader
+def load_company(companyid):
+  try:
+    return models.Company.get(models.Company.id==companyid)
+  except models.DoesNotExist:
+    return None
+
 CORS(company, origin=['http://localhost:3000'], supports_credentials=True)
 CORS(products, origin=['http://localhost:3000'], supports_credentials=True)
 CORS(stores, origin=['http://localhost:3000'], supports_credentials=True)

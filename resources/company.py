@@ -19,8 +19,8 @@ def register():
     payload['password'] = generate_password_hash(payload['password'])
     company=models.Company.create(**payload)
     login_user(company)
-    company_dict = model_to_dict(company)
 
+    company_dict = model_to_dict(company)
     del company_dict['password']
 
     return jsonify(
@@ -64,3 +64,9 @@ def login():
         'message': 'Email or Password does not match'
       }
     ),401
+
+@company.route("/logged_in_company", methods=["GET"])
+def get_logged_in_company():
+  company_dict = model_to_dict(current_user)
+  company_dict.pop("password")
+  return jsonify(data=company_dict),200

@@ -4,7 +4,7 @@ from flask_bcrypt import generate_password_hash,check_password_hash
 from flask_login import login_user,current_user,logout_user
 from playhouse.shortcuts import model_to_dict
 
-user = Blueprint("users","user")
+user = Blueprint("users","users")
 
 @user.route("/register", methods=["POST"])
 def register():
@@ -64,13 +64,11 @@ def login():
 
 @user.route('/logged_in_user', methods=['GET'])
 def get_logged_in_user():
-  current_user_user_dict = [model_to_dict(user) for user in current_user.users]
-
-  for user_dict in current_user_user_dict:
-    user_dict['company'].pop('password')
+  user_dict=model_to_dict(current_user)
+  user_dict.pop('password')
 
   return jsonify(
-    data=current_user_user_dict,
+    data=user_dict,
     status={
       "code": 200
     }
