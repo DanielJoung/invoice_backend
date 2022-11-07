@@ -6,6 +6,18 @@ from playhouse.shortcuts import model_to_dict
 
 company = Blueprint("company","company")
 
+@company.route("/search", methods=['GET'])
+def get_company():
+  result = models.Company.select()
+
+  company_dicts = [model_to_dict(company) for company in result]
+
+  return jsonify({
+    'data': company_dicts,
+    'message': "Successfully found",
+    'status': 200
+  }),200
+
 @company.route("/register", methods=["POST"])
 def register():
   payload=request.get_json()
@@ -44,10 +56,10 @@ def login():
       return jsonify(
         data=company_dict,
         status={
-          "code": 201,
+          "code": 200,
           "message": "Success Login"
         }
-      ),201
+      ),200
     else:
       return jsonify(
         data={},
@@ -70,3 +82,11 @@ def get_logged_in_company():
   company_dict = model_to_dict(current_user)
   company_dict.pop("password")
   return jsonify(data=company_dict),200
+
+
+@company.route('/logout', methods=['GET'])
+def logout():
+  logout_user()
+  return jsonify(
+    message= "logout"
+  )
