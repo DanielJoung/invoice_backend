@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, after_this_request
 from resources.company import company
 from resources.product import products
 from resources.store import stores
@@ -47,6 +47,22 @@ app.register_blueprint(stores, url_prefix='/stores')
 app.register_blueprint(products, url_prefix='/products')
 
 
+@app.before_request
+def before_request():
+    print("you should see this before each request")
+    models.DATABASE.connect()
+
+    @after_this_request
+    def after_request(response):
+        print("you should see this after each request")
+        models.DATABASE.close()
+        return response
+
+
 if __name__ == '__main__':
     models.initialize()
     app.run(debug=DEBUG, port=PORT)
+
+if os.environ.get('FLASK_ENV') != 'development':
+    print('\non heroku!')
+    models.initialize()
