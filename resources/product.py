@@ -20,10 +20,11 @@ def products_index():
 
 
 @products.route('/', methods=['POST'])
-@login_required
+# @login_required
 def create_products():
     payload = request.get_json()
 
+    print(payload, "payload create")
     query = models.Company.get(
         models.Company.companyname == payload['company'])
 
