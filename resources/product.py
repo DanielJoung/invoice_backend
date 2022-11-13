@@ -6,12 +6,13 @@ from flask_login import login_required, current_user
 products = Blueprint("products", "products")
 
 
-@products.route("/", methods={"GET"})
+@products.route("/all_item", methods={"GET"})
 def products_index():
     result = models.Product.select()
     product_dict = [model_to_dict(product) for product in result]
-    print(product_dict, "get product")
+
     # del product_dict["company"]["password"]
+    print(product_dict)
     return jsonify({
         'data': product_dict,
         'message': "Successfully found",
@@ -19,7 +20,7 @@ def products_index():
     }), 200
 
 
-@products.route('/', methods=['POST'])
+@products.route('/create', methods=['POST'])
 # @login_required
 def create_products():
     payload = request.get_json()
@@ -34,6 +35,7 @@ def create_products():
     product_dict = model_to_dict(new_product)
     # product_dict['company'].pop['password']
     del product_dict['company']['password']
+    print(product_dict)
     return jsonify(
         data=product_dict,
         message="Successfully created product",

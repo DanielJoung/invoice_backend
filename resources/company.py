@@ -54,6 +54,7 @@ def login():
         if (check_password_hash(company_dict['password'], payload['password'])):
             del company_dict['password']
             login_user(company)
+            print(company_dict)
             return jsonify(
                 data=company_dict,
                 status={

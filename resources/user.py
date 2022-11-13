@@ -34,7 +34,7 @@ def register():
         del user_dict['password']
         del user_dict['company']['password']
 
-        print(user_dict)
+        # print(user_dict)
 
         return jsonify(
             data=user_dict,

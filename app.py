@@ -36,10 +36,10 @@ def load_company(companyid):
         return None
 
 
-CORS(company, origin=['http://localhost:3000'], supports_credentials=True)
-CORS(products, origin=['http://localhost:3000'], supports_credentials=True)
-CORS(stores, origin=['http://localhost:3000'], supports_credentials=True)
-CORS(user, origin=['http://localhost:3000'], supports_credentials=True)
+CORS(company, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(products, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(stores, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(user, origins=['http://localhost:3000'], supports_credentials=True)
 
 app.register_blueprint(company, url_prefix='/company')
 app.register_blueprint(user, url_prefix='/user')
@@ -50,9 +50,10 @@ app.register_blueprint(products, url_prefix='/products')
 @app.before_request
 def before_request():
     print("you should see this before each request")
+    # print(, "befor")
     models.DATABASE.connect()
 
-    @after_this_request
+    @ after_this_request
     def after_request(response):
         print("you should see this after each request")
         models.DATABASE.close()
