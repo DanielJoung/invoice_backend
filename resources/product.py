@@ -7,14 +7,16 @@ products = Blueprint("products", "products")
 
 
 @products.route("/all_item", methods={"GET"})
+@login_required
 def products_index():
-    result = models.Product.select()
-    product_dict = [model_to_dict(product) for product in result]
+    # result = models.Product.select()
+    # product_dict = [model_to_dict(product) for product in result]
+    # print(product_dict)
+    current_user_product_dicts = [model_to_dict(
+        product) for product in current_user.products]
 
-    # del product_dict["company"]["password"]
-    print(product_dict)
     return jsonify({
-        'data': product_dict,
+        'data': current_user_product_dicts,
         'message': "Successfully found",
         'status': 200
     }), 200

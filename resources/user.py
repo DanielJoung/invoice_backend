@@ -7,6 +7,17 @@ from playhouse.shortcuts import model_to_dict
 user = Blueprint("user", "user")
 
 
+@user.route("/search_user", methods=['GET'])
+def get_user():
+    result = models.User.select()
+    user_dicts = [model_to_dict(user) for user in result]
+    return jsonify({
+        'data': user_dicts,
+        'message': "Successfully found",
+        'status': 200
+    }), 200
+
+
 @user.route("/register", methods=["POST"])
 def register():
     payload = request.get_json()
@@ -54,6 +65,7 @@ def login():
         if (check_password_hash(user_dict['password'], payload['password'])):
             del user_dict['password']
             login_user(user)
+            print(user_dict)
             return jsonify(
                 data=user_dict,
                 status={

@@ -7,7 +7,7 @@ from playhouse.shortcuts import model_to_dict
 company = Blueprint("company", "company")
 
 
-@company.route("/search", methods=['GET'])
+@company.route("/search_company", methods=['GET'])
 def get_company():
     result = models.Company.select()
     company_dicts = [model_to_dict(company) for company in result]
