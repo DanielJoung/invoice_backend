@@ -69,10 +69,10 @@ def login():
             return jsonify(
                 data=user_dict,
                 status={
-                    "code": 201,
+                    "code": 200,
                     "message": "Success Login"
                 }
-            ), 201
+            ), 200
         else:
             return jsonify(
                 data={},

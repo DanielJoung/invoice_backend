@@ -50,6 +50,7 @@ def update_product(id):
     payload = request.get_json()
     query = models.Product.update(**payload).where(models.Product.id == id)
     query.execute()
+    # print(model_to_dict(models.Product.get_by_id(id)),"query")
     return jsonify(
         data=model_to_dict(models.Product.get_by_id(id)),
         status=200,
@@ -61,6 +62,7 @@ def update_product(id):
 def delete_product(id):
     query = models.Product.delete().where(models.Product.id == id)
     query.execute()
+    print(query,"query")
     return jsonify(
         data=model_to_dict(models.Product.get_by_id(id)),
         message='Successfully deleted',
