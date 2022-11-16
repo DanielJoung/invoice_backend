@@ -30,9 +30,9 @@ class User(UserMixin, Model):
 
 
 class Store(Model):
-    storename = CharField(unique=True)
+    storename = CharField()
     address = CharField()
-    storePhone = CharField(unique=True)
+    storephone = CharField(unique=True)
     company = ForeignKeyField(Company, backref="stores")
 
     class Meta:
@@ -40,7 +40,7 @@ class Store(Model):
 
 
 class Product(Model):
-    productname = CharField()
+    productname = CharField(unique=True)
     price = IntegerField(default=0)
     quantity = IntegerField(default=0)
     discount = IntegerField(default=0)

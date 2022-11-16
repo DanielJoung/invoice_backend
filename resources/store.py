@@ -6,13 +6,13 @@ from flask_login import login_required, current_user
 stores = Blueprint("stores", "stores")
 
 
-@stores.route("/", methods={"GET"})
+@stores.route("/all_store", methods={"GET"})
 def products_index():
     current_user_store_dict = [model_to_dict(
         store) for store in current_user.stores]
 
     for store_dict in current_user_store_dict:
-        store_dict['company'].pop('password')
+        del store_dict['company']['password']
 
     return jsonify({
         'data': current_user_store_dict,
@@ -21,13 +21,19 @@ def products_index():
     }), 200
 
 
-@stores.route('/', methods=['POST'])
+@stores.route('/create', methods=['POST'])
 def create_stores():
     payload = request.get_json()
+
+    query = models.Company.get(
+    models.Company.companyname == payload['company'])
+
     new_store = models.Store.create(
-        storeName=payload['storeName'], company=current_user.id, address=payload['address'], storePhone=payload['storePhone'])
+        storename=payload['storename'], company=query, address=payload['address'], storephone=payload['storephone'])
+
     store_dict = model_to_dict(new_store)
-    store_dict['company'].pop['password']
+    del store_dict['company']['password']
+
     return jsonify(
         data=store_dict,
         message="Successfully created product",

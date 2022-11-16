@@ -11,6 +11,12 @@ user = Blueprint("user", "user")
 def get_user():
     result = models.User.select()
     user_dicts = [model_to_dict(user) for user in result]
+
+    for password in user_dicts:
+        del password['password']
+        del password['company']['password']
+
+    print(user_dicts)
     return jsonify({
         'data': user_dicts,
         'message': "Successfully found",
