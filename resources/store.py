@@ -34,6 +34,8 @@ def create_stores():
     store_dict = model_to_dict(new_store)
     del store_dict['company']['password']
 
+    print(store_dict, "store_dict")
+
     return jsonify(
         data=store_dict,
         message="Successfully created product",

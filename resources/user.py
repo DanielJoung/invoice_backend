@@ -101,7 +101,7 @@ def login():
 def get_logged_in_user():
     user_dict = model_to_dict(current_user)
     user_dict.pop('password')
-
+    print(user_dict)
     return jsonify(
         data=user_dict,
         status={
