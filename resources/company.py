@@ -54,7 +54,7 @@ def login():
         if (check_password_hash(company_dict['password'], payload['password'])):
             del company_dict['password']
             login_user(company)
-            print(company_dict)
+            # print(company_dict)
             return jsonify(
                 data=company_dict,
                 status={
@@ -84,6 +84,7 @@ def login():
 def get_logged_in_company():
     company_dict = model_to_dict(current_user)
     company_dict.pop("password")
+    # print(company_dict)
     return jsonify(data=company_dict), 200
 
 

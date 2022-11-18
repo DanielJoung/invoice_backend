@@ -34,7 +34,6 @@ class Store(Model):
     address = CharField()
     storephone = CharField(unique=True)
     company = ForeignKeyField(Company, backref="stores")
-
     class Meta:
         database = DATABASE
 
@@ -48,6 +47,7 @@ class Product(Model):
 
     class Meta:
         database = DATABASE
+
 
 
 def initialize():

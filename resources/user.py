@@ -6,24 +6,6 @@ from playhouse.shortcuts import model_to_dict
 
 user = Blueprint("user", "user")
 
-
-@user.route("/search_user", methods=['GET'])
-def get_user():
-    result = models.User.select()
-    user_dicts = [model_to_dict(user) for user in result]
-
-    for password in user_dicts:
-        del password['password']
-        del password['company']['password']
-
-    print(user_dicts)
-    return jsonify({
-        'data': user_dicts,
-        'message': "Successfully found",
-        'status': 200
-    }), 200
-
-
 @user.route("/register", methods=["POST"])
 def register():
     payload = request.get_json()
@@ -33,11 +15,11 @@ def register():
     # comp = models.Company.select()
     find_company = models.Company.select().where(
         models.Company.companyname == payload['company'])
-    # del find_company['password']
+
     payload['company'] = find_company
 
     payload['email'] = payload['email'].lower()
-    # print(payload)
+
     try:
         models.User.get(models.User.email == payload['email'])
         return jsonify(data={}, status={"code": 401, "message": "A user with that email already exists"}), 401
@@ -47,7 +29,7 @@ def register():
         login_user(user)
 
         user_dict = model_to_dict(user)
-        print(user_dict, "info")
+        # print(user_dict, "info")
         del user_dict['password']
         del user_dict['company']['password']
 
@@ -65,13 +47,15 @@ def register():
 @user.route("/login", methods=["POST"])
 def login():
     payload = request.get_json()
+    # print(payload)
     try:
         user = models.User.get(models.User.email == payload['email'])
         user_dict = model_to_dict(user)
         if (check_password_hash(user_dict['password'], payload['password'])):
             del user_dict['password']
+            del user_dict["company"]['password']
             login_user(user)
-            print(user_dict)
+            # print(user_dict)
             return jsonify(
                 data=user_dict,
                 status={
@@ -96,17 +80,32 @@ def login():
             }
         ), 401
 
+@user.route("/search_user", methods=['GET'])
+def get_user():
+    find_company = models.User.get(models.User.id == current_user)
+    user_dicts = model_to_dict(find_company)
 
-@user.route('/logged_in_user', methods=['GET'])
-def get_logged_in_user():
-    user_dict = model_to_dict(current_user)
-    user_dict.pop('password')
-    print(user_dict)
+    find_company_product = models.Product.select()
+    all_product_dicts = [model_to_dict(product) for product in find_company_product]
+
+    company_dicts = []
+    for product in all_product_dicts: 
+        if(product["company"]["companyname"] == user_dicts["company"]["companyname"]):
+            company_dicts.append(product)
+
+    find_company_store = models.Store.select()
+    all_store_dicts = [model_to_dict(store) for store in find_company_store]
+    for store in all_store_dicts:
+        if (store["company"]["companyname"] == user_dicts["company"]["companyname"]):
+            company_dicts.append(store)
+
+    for password in company_dicts:
+        del password["company"]["password"]
+
     return jsonify(
-        data=user_dict,
-        status={
-            "code": 200
-        }
+        data= company_dicts,
+        message = "Successfully found",
+        status= 200
     ), 200
 
 

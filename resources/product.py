@@ -31,7 +31,7 @@ def products_index():
 def create_products():
     payload = request.get_json()
 
-    print(payload, "payload create")
+    # print(payload, "payload create")
     query = models.Company.get(
         models.Company.companyname == payload['company'])
 
@@ -43,7 +43,7 @@ def create_products():
     # product_dict['company'].pop['password']
     del product_dict['company']['password']
 
-    print(product_dict,"product_dict")
+    # print(product_dict,"product_dict")
 
     return jsonify(
         data=product_dict,
@@ -54,7 +54,7 @@ def create_products():
 @products.route("/<id>", methods=["GET"])
 def get_one_product(id):
     product = models.Product.get_by_id(id)
-    print(product)
+    # print(product)
     return jsonify(
         data = model_to_dict(product),
         message = "success to get product",
@@ -79,7 +79,7 @@ def update_product(id):
 def delete_product(id):
     query = models.Product.delete().where(models.Product.id == id)
     query.execute()
-    print(query,"query")
+    # print(query,"query")
     return jsonify(
         data=model_to_dict(models.Product.get_by_id(id)),
         message='Successfully deleted',
