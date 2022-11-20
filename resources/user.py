@@ -84,26 +84,37 @@ def login():
 def get_user():
     find_company = models.User.get(models.User.id == current_user)
     user_dicts = model_to_dict(find_company)
+    # print(user_dicts,"user")
+    del user_dicts["password"]
+    del user_dicts["company"]["password"]
 
+    # product
+    product_dicts = []
     find_company_product = models.Product.select()
     all_product_dicts = [model_to_dict(product) for product in find_company_product]
-
-    company_dicts = []
+    # print(product_dicts,"product")
     for product in all_product_dicts: 
         if(product["company"]["companyname"] == user_dicts["company"]["companyname"]):
-            company_dicts.append(product)
+            product_dicts.append(product)
 
+    # store
     find_company_store = models.Store.select()
+    store_dicts = []
     all_store_dicts = [model_to_dict(store) for store in find_company_store]
     for store in all_store_dicts:
         if (store["company"]["companyname"] == user_dicts["company"]["companyname"]):
-            company_dicts.append(store)
+            store_dicts.append(store)
+    # print(store_dicts,"store")
 
-    for password in company_dicts:
+    for password in store_dicts:
+        del password["company"]["password"]
+    for password in product_dicts:
         del password["company"]["password"]
 
     return jsonify(
-        data= company_dicts,
+        user= user_dicts,
+        product= product_dicts,
+        store= store_dicts,
         message = "Successfully found",
         status= 200
     ), 200
