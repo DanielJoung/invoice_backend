@@ -3,6 +3,7 @@ from resources.company import company
 from resources.product import products
 from resources.store import stores
 from resources.user import user
+from resources.invoice import invoices
 import models
 from flask_cors import CORS
 from flask_login import LoginManager
@@ -40,11 +41,13 @@ CORS(company, origins=['http://localhost:3000'], supports_credentials=True)
 CORS(products, origins=['http://localhost:3000'], supports_credentials=True)
 CORS(stores, origins=['http://localhost:3000'], supports_credentials=True)
 CORS(user, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(invoices, origins=['http://localhost:3000'], supports_credentials=True)
 
 app.register_blueprint(company, url_prefix='/company')
 app.register_blueprint(user, url_prefix='/user')
 app.register_blueprint(stores, url_prefix='/stores')
 app.register_blueprint(products, url_prefix='/products')
+app.register_blueprint(invoices, url_prefix='/invoices')
 
 
 @app.before_request

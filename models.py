@@ -1,5 +1,5 @@
 from peewee import *
-# import datetime
+import datetime
 from flask_login import UserMixin
 import os
 from playhouse.db_url import connect
@@ -48,6 +48,18 @@ class Product(Model):
     class Meta:
         database = DATABASE
 
+class Invoice(Model):
+    company= CharField()
+    store= CharField()
+    product = CharField()
+    case = IntegerField()
+    balance = IntegerField()
+
+    created_at = DateTimeField(default=datetime.datetime.now)
+
+
+
+    
 
 
 def initialize():
