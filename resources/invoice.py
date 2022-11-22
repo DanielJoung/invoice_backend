@@ -5,7 +5,7 @@ from flask_login import login_required, current_user
 
 invoices = Blueprint("invoices", "invoices")
 
-@invoices.route("all_invoice", methods=["GET"])
+@invoices.route("/all_invoice", methods=["GET"])
 def invoice_index():
   result = models.Invoice.select()
 
@@ -27,7 +27,7 @@ def create_invoice():
   invoice_dict = model_to_dict(new_invoice)
 
   return jsonify(
-    data= invoice_index,
+    data= invoice_dict,
     message = "Success create",
     status = 201
   ),201
