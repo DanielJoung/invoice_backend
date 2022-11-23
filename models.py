@@ -4,8 +4,7 @@ from flask_login import UserMixin
 import os
 from playhouse.db_url import connect
 
-DATABASE = connect(os.environ.get('DATABASE_URL')
-                   or 'sqlite:///company.sqlite')
+DATABASE = connect(os.environ.get('DATABASE_URL') or 'sqlite:///company.sqlite')
 
 
 class Company(UserMixin, Model):
