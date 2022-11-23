@@ -48,11 +48,11 @@ class Product(Model):
         database = DATABASE
 
 class Invoice(Model):
-    company= CharField()
-    store= CharField()
     product = CharField()
-    case = IntegerField()
+    total_price = IntegerField()
     balance = IntegerField()
+    case = IntegerField()
+    total_case = IntegerField()
     created_at = DateTimeField(default=datetime.datetime.now)
 
     class Meta:
