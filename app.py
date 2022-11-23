@@ -37,11 +37,11 @@ def load_company(companyid):
         return None
 
 
-CORS(company, origins=['https://invoice-maker-app.herokuapp.com/',"http://localhost:3000"], supports_credentials=True)
-CORS(products, origins=['https://invoice-maker-app.herokuapp.com/',"http://localhost:3000"], supports_credentials=True)
-CORS(stores, origins=['https://invoice-maker-app.herokuapp.com/',"http://localhost:3000"], supports_credentials=True)
-CORS(user, origins=['http://localhost:3000','https://invoice-maker-app.herokuapp.com/'], supports_credentials=True)
-CORS(invoices, origins=['http://localhost:3000','https://invoice-maker-app.herokuapp.com/'], supports_credentials=True)
+CORS(company, origins=['https://invoice-maker-app-front.herokuapp.com/',"http://localhost:3000"], supports_credentials=True)
+CORS(products, origins=['https://invoice-maker-app-front.herokuapp.com/',"http://localhost:3000"], supports_credentials=True)
+CORS(stores, origins=['https://invoice-maker-app-front.herokuapp.com/',"http://localhost:3000"], supports_credentials=True)
+CORS(user, origins=['http://localhost:3000','https://invoice-maker-app-front.herokuapp.com/'], supports_credentials=True)
+CORS(invoices, origins=['http://localhost:3000','https://invoice-maker-app-front.herokuapp.com/'], supports_credentials=True)
 
 app.register_blueprint(company, url_prefix='/company')
 app.register_blueprint(user, url_prefix='/user')
