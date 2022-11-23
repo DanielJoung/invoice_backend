@@ -7,13 +7,15 @@ products = Blueprint("products", "products")
 
 
 @products.route("/all_item", methods={"GET"})
-@login_required
+# @login_required
 def products_index():
     # result = models.Product.select()
     # product_dict = [model_to_dict(product) for product in result]
     # print(product_dict)
     current_user_product_dicts = [model_to_dict(
         product) for product in current_user.products]
+
+    print(current_user_product_dicts)
 
     for company_dict in current_user_product_dicts:
         del company_dict['company']['password']
