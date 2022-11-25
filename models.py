@@ -48,9 +48,10 @@ class Product(Model):
         database = DATABASE
 
 class Invoice(Model):
-
+    product: CharField()
     balance = IntegerField()
-    total_case = IntegerField()
+    case = IntegerField()
+    user = ForeignKeyField(User, backref="invoices")
     created_at = DateTimeField(default=datetime.datetime.now)
 
     class Meta:
@@ -58,6 +59,6 @@ class Invoice(Model):
 
 def initialize():
     DATABASE.connect()
-    DATABASE.create_tables([Company, Product, User, Store,Invoice], safe=True)
+    DATABASE.create_tables([Company, Product, User, Store, Invoice], safe=True)
     print("Connected to the DB")
     DATABASE.close()
