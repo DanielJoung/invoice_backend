@@ -6,7 +6,7 @@ from flask_login import login_required, current_user
 products = Blueprint("products", "products")
 
 
-@products.route("/all_item", methods={"GET"})
+@products.route("/all_item", methods=["GET"])
 # @login_required
 def products_index():
     # result = models.Product.select()
