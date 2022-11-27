@@ -1,5 +1,5 @@
 import models
-from flask import request, jsonify, Blueprint
+from flask import request, jsonify, Blueprint,session
 from flask_bcrypt import generate_password_hash, check_password_hash
 from flask_login import login_user, current_user, logout_user
 from playhouse.shortcuts import model_to_dict
@@ -55,6 +55,8 @@ def login():
             del company_dict['password']
             login_user(company)
             # print(company_dict)
+            session["login_type"] ="Company"
+
             return jsonify(
                 data=company_dict,
                 status={
@@ -94,3 +96,4 @@ def logout():
     return jsonify(
         message="logout"
     )
+

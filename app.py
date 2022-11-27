@@ -1,4 +1,4 @@
-from flask import Flask, after_this_request
+from flask import Flask, after_this_request,session
 from resources.company import company
 from resources.product import products
 from resources.store import stores
@@ -26,18 +26,19 @@ app.config.update(
     SESSION_COOKIE_SAMESITE='None',
 )
 
-@login_manager.user_loader
-def load_user(userid):
-    try:
-        return models.User.get(models.User.id == userid)
-    except models.DoesNotExist:
-        return None
-
+# print(session.get("login_type"))
 
 @login_manager.user_loader
-def load_company(companyid):
+def load_company(id):
+    login_type = session.get("login_type")
+    # print(login_type,"type")
     try:
-        return models.Company.get(models.Company.id == companyid)
+        if login_type == "Company":
+            return models.Company.get(models.Company.id == id)
+        elif login_type == "User":
+            return models.User.get(models.User.id == id)
+
+
     except models.DoesNotExist:
         return None
 

@@ -48,11 +48,10 @@ class Product(Model):
         database = DATABASE
 
 class Invoice(Model):
-    product: CharField()
+    user: ForeignKeyField(User, backref="invoices")
     balance = IntegerField()
     case = IntegerField()
-    user = ForeignKeyField(User, backref="invoices")
-    created_at = DateTimeField(default=datetime.datetime.now)
+    created_at = DateTimeField(default=datetime.datetime.now())
 
     class Meta:
         database =DATABASE

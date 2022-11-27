@@ -1,5 +1,5 @@
 import models
-from flask import request, jsonify, Blueprint
+from flask import request, jsonify, Blueprint,session
 from flask_bcrypt import generate_password_hash, check_password_hash
 from flask_login import login_user, current_user, logout_user
 from playhouse.shortcuts import model_to_dict
@@ -25,22 +25,23 @@ def register():
         return jsonify(data={}, status={"code": 401, "message": "A user with that email already exists"}), 401
     except models.DoesNotExist:
         payload['password'] = generate_password_hash(payload['password'])
+        
         user = models.User.create(**payload)
         login_user(user)
-
         user_dict = model_to_dict(user)
-        # print(user_dict, "info")
         del user_dict['password']
         del user_dict['company']['password']
 
-        # print(user_dict)
+
 
         return jsonify(
             data=user_dict,
+
             status={
                 "code": 201,
                 "message": "Success"
             }
+            
         ), 201
 
 
@@ -55,7 +56,9 @@ def login():
             del user_dict['password']
             del user_dict["company"]['password']
             login_user(user)
-            # print(user_dict)
+            # print(current_user.id)
+            session["login_type"] ="User"
+            # print(session.get("login_type"))
             return jsonify(
                 data=user_dict,
                 status={
@@ -84,7 +87,7 @@ def login():
 def get_user():
     find_company = models.User.get(models.User.id == current_user)
     user_dicts = model_to_dict(find_company)
-    # print(user_dicts,"user")
+    print(current_user,"user")
     del user_dicts["password"]
     del user_dicts["company"]["password"]
 
@@ -126,3 +129,5 @@ def logout():
     return jsonify(
         message="logout"
     )
+
+

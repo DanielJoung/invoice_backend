@@ -14,8 +14,8 @@ def products_index():
     # print(product_dict)
     current_user_product_dicts = [model_to_dict(
         product) for product in current_user.products]
-
-    print(current_user_product_dicts)
+    # print(current_user.products,"dd")
+    # print(current_user_product_dicts)
 
     for company_dict in current_user_product_dicts:
         del company_dict['company']['password']

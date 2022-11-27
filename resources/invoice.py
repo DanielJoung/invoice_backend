@@ -7,11 +7,14 @@ invoices = Blueprint("invoices", "invoices")
 
 @invoices.route("/all_invoice", methods=["GET"])
 def invoice_index():
-  current_user_invoice_dicts = [model_to_dict(invoice) for invoice in current_user.invoices]
-  print(current_user_invoice_dicts)
+  result = models.Invoice.select()
+  invoice_dict = [model_to_dict(invoice) for invoice in result]
 
+  # current_user_invoice = [model_to_dict(invoice) for invoice in current_user.invoices]
+
+  # print(current_user.invoices,"dsfsdfdsfsafdsd")
   return jsonify({
-    "data" : current_user_invoice_dicts,
+    "data" : invoice_dict,
     "message" : "Success to get",
     "status" :200
   }),200
@@ -21,15 +24,17 @@ def invoice_index():
 # @login_required
 def create_invoice():
   payload = request.get_json()
+  print(payload)
 
-  query = models.User.get(
-    models.User.username == payload['user'])
+  query = models.User.get(models.User.username == payload['user'])
+  
+  # print(query['product']['user'],"dfsadfdsf")
 
   new_invoice = models.Invoice.create(
       balance=payload['balance'], case=payload['case'], user=query)
 
   invoice_dict = model_to_dict(new_invoice)
-  print(invoice_dict)
+  print(invoice_dict,"invoice")
 
   return jsonify(
     data= invoice_dict,

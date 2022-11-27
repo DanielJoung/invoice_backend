@@ -10,7 +10,7 @@ stores = Blueprint("stores", "stores")
 def products_index():
     current_user_store_dict = [model_to_dict(
         store) for store in current_user.stores]
-
+    # print(current_user.stores,"sotres")
     for store_dict in current_user_store_dict:
         del store_dict['company']['password']
 
