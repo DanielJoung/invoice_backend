@@ -24,7 +24,7 @@ def invoice_index():
 # @login_required
 def create_invoice():
   payload = request.get_json()
-  print(payload)
+  print(payload["user"])
 
   query = models.User.get(models.User.username == payload['user'])
   
@@ -38,6 +38,7 @@ def create_invoice():
 
   return jsonify(
     data= invoice_dict,
+    user= payload["user"],
     message = "Success create",
     status = 201
   ),201
