@@ -46,8 +46,11 @@ def register():
 
 @company.route("/login", methods=["POST"])
 def login():
+    print("company login")
+
     payload = request.get_json()
     try:
+
         company = models.Company.get(models.Company.email == payload['email'])
         company_dict = model_to_dict(company)
 
@@ -56,7 +59,6 @@ def login():
             login_user(company)
             # print(company_dict)
             session["login_type"] ="Company"
-
             return jsonify(
                 data=company_dict,
                 status={

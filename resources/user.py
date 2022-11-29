@@ -59,6 +59,7 @@ def login():
             # print(current_user.id)
             session["login_type"] ="User"
             # print(session.get("login_type"))
+            print(current_user)
             return jsonify(
                 data=user_dict,
                 status={

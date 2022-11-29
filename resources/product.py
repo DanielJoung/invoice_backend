@@ -11,10 +11,11 @@ products = Blueprint("products", "products")
 def products_index():
     # result = models.Product.select()
     # product_dict = [model_to_dict(product) for product in result]
-    # print(product_dict)
+    print("dfljdsfljdslfjsdl")
     current_user_product_dicts = [model_to_dict(
         product) for product in current_user.products]
-    # print(current_user.products,"dd")
+
+    print(current_user,"ddasdasdasd")
     # print(current_user_product_dicts)
 
     for company_dict in current_user_product_dicts:
